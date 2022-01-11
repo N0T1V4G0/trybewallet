@@ -5,9 +5,9 @@ import Login from './pages/Login';
 function App() {
   return (
     <div>
-      {/* <Switch> */}
-      <Route exact path="/login" component={Login} />
-      {/* </Switch> */}
+      <Switch>
+        <Route exact path="/" component={ Login } />
+      </Switch>
     </div>
   );
 }

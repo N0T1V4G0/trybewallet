@@ -4,6 +4,12 @@ const INITIAL_STATE = {
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
+  if (action.type === 'SET_USER_EMAIL') {
+    return {
+      ...state,
+      email: action.payload,
+    };
+  }
   return state;
 };
 

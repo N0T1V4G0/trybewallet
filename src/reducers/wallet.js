@@ -4,8 +4,6 @@ const INITIAL_STATE = {
   expenses: [],
 };
 
-const walletReducer = (state = INITIAL_STATE, action) => {
-  return state;
-};
+const walletReducer = (state = INITIAL_STATE) => state;
 
 export default walletReducer;
