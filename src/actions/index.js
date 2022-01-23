@@ -8,17 +8,16 @@ export const setUserEmail = (payload) => ({
 
 export const GET_CURRENCIES = 'GET_CURRENCIES';
 
-export const getCurrenciesAction = async () => {
+export const getCurrenciesAction = () => async (dispatch) => {
   const response = await fetch('https://economia.awesomeapi.com.br/json/all');
   const responseJson = await response.json();
   const currencies = Object.keys(responseJson).filter(
     (currency) => currency !== 'USDT',
   );
-
-  return {
+  dispatch({
     type: GET_CURRENCIES,
     payload: currencies,
-  };
+  });
 };
 
 export const ADD_EXPENSE = 'ADD_EXPENSE';
