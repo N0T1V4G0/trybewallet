@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import ExpensesForm from '../components/ExpensesForm';
+import ExpensesTable from '../components/ExpensesTable';
 
 class Wallet extends React.Component {
   calculateTotalExpenses = () => {
@@ -23,16 +24,16 @@ class Wallet extends React.Component {
           <p data-testid="total-field">{this.calculateTotalExpenses()}</p>
           <p data-testid="header-currency-field">BRL</p>
         </header>
-        <ExpensesForm calculateTotalExpenses={ this.calculateTotalExpenses } />
+        <ExpensesForm />
+        <ExpensesTable />
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  console.log(state);
-  return { userEmail: state.user.email, expenses: state.wallet.expenses };
-};
+const mapStateToProps = (state) => (
+  { userEmail: state.user.email, expenses: state.wallet.expenses }
+);
 
 Wallet.propTypes = {
   userEmail: PropTypes.string.isRequired,

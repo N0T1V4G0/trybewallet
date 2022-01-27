@@ -131,12 +131,9 @@ class ExpensesForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  console.log(state);
-  return {
-    currencies: state.wallet.currencies,
-  };
-};
+const mapStateToProps = (state) => ({
+  currencies: state.wallet.currencies,
+});
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
