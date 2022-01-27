@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { removeExpenseAction } from '../actions';
 
 class ExpensesTable extends Component {
   render() {
-    const { expenses } = this.props;
+    const { expenses, removeExpense } = this.props;
     return (
       <table>
         <thead>
@@ -21,8 +23,8 @@ class ExpensesTable extends Component {
           </tr>
         </thead>
         <tbody>
-          {expenses.map((expense, i) => (
-            <tr key={ i }>
+          {expenses.map((expense) => (
+            <tr key={ expense.id }>
               <td>{expense.description}</td>
               <td>{expense.tag}</td>
               <td>{expense.method}</td>
@@ -34,7 +36,18 @@ class ExpensesTable extends Component {
                 {(expense.exchangeRates[expense.currency].ask * 1).toFixed(2)}
               </td>
               <td>Real</td>
-              <td>{expense.value * expense.exchangeRates[expense.currency].ask}</td>
+              <td>
+                {expense.value * expense.exchangeRates[expense.currency].ask}
+              </td>
+              <td>
+                <button
+                  type="button"
+                  data-testid="delete-btn"
+                  onClick={ () => removeExpense(expense.id) }
+                >
+                  Excluir
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -44,9 +57,16 @@ class ExpensesTable extends Component {
 }
 
 const mapStateToProps = (state) => ({ expenses: state.wallet.expenses });
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    removeExpense: removeExpenseAction,
+  },
+  dispatch,
+);
 
 ExpensesTable.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  removeExpense: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(ExpensesTable);
+export default connect(mapStateToProps, mapDispatchToProps)(ExpensesTable);

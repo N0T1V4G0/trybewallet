@@ -26,3 +26,10 @@ export const addExpenseAction = (payload) => ({
   type: ADD_EXPENSE,
   payload,
 });
+
+export const REMOVE_EXPENSE = 'REMOVE-EXPENSE';
+
+export const removeExpenseAction = (id) => ({
+  type: REMOVE_EXPENSE,
+  payload: id,
+});
