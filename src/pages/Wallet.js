@@ -4,16 +4,26 @@ import { PropTypes } from 'prop-types';
 import ExpensesForm from '../components/ExpensesForm';
 
 class Wallet extends React.Component {
+  calculateTotalExpenses = () => {
+    const { expenses } = this.props;
+    let totalExpenses = 0;
+    expenses.forEach((expense) => {
+      const whatever = expense.value * expense.exchangeRates[expense.currency].ask;
+      totalExpenses += whatever;
+    });
+    return totalExpenses;
+  };
+
   render() {
     const { userEmail } = this.props;
     return (
       <div>
         <header>
           <p data-testid="email-field">{userEmail}</p>
-          <p data-testid="total-field">0</p>
+          <p data-testid="total-field">{this.calculateTotalExpenses()}</p>
           <p data-testid="header-currency-field">BRL</p>
         </header>
-        <ExpensesForm />
+        <ExpensesForm calculateTotalExpenses={ this.calculateTotalExpenses } />
       </div>
     );
   }
@@ -21,11 +31,12 @@ class Wallet extends React.Component {
 
 const mapStateToProps = (state) => {
   console.log(state);
-  return { userEmail: state.user.email };
+  return { userEmail: state.user.email, expenses: state.wallet.expenses };
 };
 
 Wallet.propTypes = {
   userEmail: PropTypes.string.isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.shape()).isRequired,
 };
 
 export default connect(mapStateToProps)(Wallet);

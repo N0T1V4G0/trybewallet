@@ -48,6 +48,10 @@ class ExpensesForm extends Component {
     this.setState((prevState) => ({
       id: prevState.id + 1,
     }));
+    this.setState({
+      value: '',
+      description: '',
+    });
   };
 
   render() {
@@ -78,12 +82,17 @@ class ExpensesForm extends Component {
             <select
               name="currency"
               id="currency-input"
-              data-testid="currency-input"
               value={ currency }
               onChange={ this.onInputChange }
+              data-testid="currency-input"
+              aria-label="moeda"
             >
               {currencies.map((currencySelect, i) => (
-                <option key={ i } value={ currencySelect }>
+                <option
+                  key={ i }
+                  value={ currencySelect }
+                  data-testid={ currencySelect }
+                >
                   {currencySelect}
                 </option>
               ))}
