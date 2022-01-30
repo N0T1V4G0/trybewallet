@@ -33,3 +33,20 @@ export const removeExpenseAction = (id) => ({
   type: REMOVE_EXPENSE,
   payload: id,
 });
+
+export const EDIT_EXPENSE = 'EDIT-EXPENSE';
+
+export const editExpenseAction = (id) => ({
+  type: EDIT_EXPENSE,
+  payload: id,
+});
+
+// Carlos Dal Soler me ajudou na contrução do requisito 9.
+export const EDIT_EXPENSE_FORM = 'EDIT_EXPENSE_FORM';
+export const editExpenseFormAction = (payload, id) => {
+  payload.id = id;
+  return {
+    type: EDIT_EXPENSE_FORM,
+    payload,
+  };
+};

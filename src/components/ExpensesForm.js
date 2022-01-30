@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { getCurrenciesAction, addExpenseAction } from '../actions';
+import { getCurrenciesAction, addExpenseAction, editExpenseFormAction } from '../actions';
 
 class ExpensesForm extends Component {
   constructor() {
@@ -54,9 +54,24 @@ class ExpensesForm extends Component {
     });
   };
 
+  editExpense = (e) => {
+    e.preventDefault();
+    const { editModeId, editExpense } = this.props;
+    const { value, description, currency, method, tag, id } = this.state;
+    const payload = {
+      id,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+    };
+    editExpense(payload, editModeId);
+  }
+
   render() {
     const { value, description, currency, method, tag } = this.state;
-    const { currencies } = this.props;
+    const { currencies, editModeId } = this.props;
     return (
       <div>
         <form>
@@ -122,9 +137,13 @@ class ExpensesForm extends Component {
             <option value="Transporte">Transporte</option>
             <option value="Saúde">Saúde</option>
           </select>
-          <button type="submit" onClick={ this.handleSubmit }>
-            Adicionar despesa
-          </button>
+          {editModeId >= 0 ? (
+            <button type="button" onClick={ this.editExpense }>Editar despesa</button>
+          ) : (
+            <button type="submit" onClick={ this.handleSubmit }>
+              Adicionar despesa
+            </button>
+          )}
         </form>
       </div>
     );
@@ -133,12 +152,14 @@ class ExpensesForm extends Component {
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  editModeId: state.wallet.editModeId,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     getCurrencies: getCurrenciesAction,
     addExpense: addExpenseAction,
+    editExpense: editExpenseFormAction,
   },
   dispatch,
 );
@@ -147,6 +168,8 @@ ExpensesForm.propTypes = {
   getCurrencies: PropTypes.func.isRequired,
   addExpense: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  editModeId: PropTypes.number.isRequired,
+  editExpense: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExpensesForm);

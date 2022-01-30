@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { removeExpenseAction } from '../actions';
+import { removeExpenseAction, editExpenseAction } from '../actions';
 
 class ExpensesTable extends Component {
   render() {
-    const { expenses, removeExpense } = this.props;
+    const { expenses, removeExpense, editExpense } = this.props;
     return (
       <table>
         <thead>
@@ -42,6 +42,13 @@ class ExpensesTable extends Component {
               <td>
                 <button
                   type="button"
+                  data-testid="edit-btn"
+                  onClick={ () => editExpense(expense.id) }
+                >
+                  Editar
+                </button>
+                <button
+                  type="button"
                   data-testid="delete-btn"
                   onClick={ () => removeExpense(expense.id) }
                 >
@@ -60,6 +67,7 @@ const mapStateToProps = (state) => ({ expenses: state.wallet.expenses });
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     removeExpense: removeExpenseAction,
+    editExpense: editExpenseAction,
   },
   dispatch,
 );
@@ -67,6 +75,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
 ExpensesTable.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   removeExpense: PropTypes.func.isRequired,
+  editExpense: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExpensesTable);
